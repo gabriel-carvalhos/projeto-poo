@@ -11,9 +11,7 @@ public class Teste {
         Leitor l = new Leitor();
 
         ArrayList<String> caminhos = l.lerTodosArquivosDoDiretorio("/home/gabriel/Músicas");
-        for (String caminho : caminhos) {
-            b.adicionarMusica(caminho);
-        }
+        b.adicionarMusica(caminhos);
 
         b.exibirTodasMusicas();
         // b.procurarPorTitulo("A Prosa").exibirTodosMetadados();

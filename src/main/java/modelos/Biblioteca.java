@@ -25,6 +25,12 @@ public class Biblioteca {
         }
     }
 
+    public void adicionarMusica(ArrayList<String> caminhos) {
+        for (String caminho : caminhos) {
+            adicionarMusica(caminho);
+        }
+    }
+
     public void exibirTodasMusicas() {
         for (Musica m : musicas) {
             System.out.println(m + "\n\n=========\n");
