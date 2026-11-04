@@ -19,7 +19,6 @@ public class Musica {
 
         this.tag = tag;
         if (tag != null) {
-            // TODO: deixar apenas o ano, sem a data completa
             titulo = tag.getFirst(FieldKey.TITLE);
             titulo = titulo.isEmpty() ? "Título Desconhecido" : titulo;
 
@@ -32,8 +31,9 @@ public class Musica {
             genero = tag.getFirst(FieldKey.GENRE);
             genero = genero.isEmpty() ? "Gênero Desconhecido" : genero;
 
+            // TODO: verificar se essa solucao com substring funciona para todos formatos de arquivo
             ano = tag.getFirst(FieldKey.YEAR);
-            ano = ano.isEmpty() ? "Ano Desconhecido" : ano;
+            ano = ano.isEmpty() || ano.length() < 4 ? "Ano Desconhecido" : ano.substring(0, 4);
         }
     }
 
@@ -42,11 +42,10 @@ public class Musica {
     }
 
     public String getDuracaoEmMinutos() {
-        // TODO: deixar certo quando segundo é 0,1,2...9
         int minutos = duracao / 60;
         int segundos = duracao % 60;
 
-        return minutos + ":" + segundos;
+        return String.format("%d:%02d", minutos, segundos);
     }
 
     @Override
