@@ -10,7 +10,7 @@ public class Teste {
         Biblioteca b = new Biblioteca();
         Leitor l = new Leitor();
 
-        ArrayList<String> caminhos = l.lerTodosArquivosDoDiretorio("/home/gabriel/Músicas");
+        ArrayList<String> caminhos = l.lerTodosArquivosDoDiretorio("./musicas-teste");
         b.adicionarMusica(caminhos);
 
         b.exibirTodasMusicas();
