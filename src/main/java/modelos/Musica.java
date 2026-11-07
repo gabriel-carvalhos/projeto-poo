@@ -1,5 +1,9 @@
 package modelos;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
@@ -16,6 +20,11 @@ public class Musica {
     public Musica(int duracao, String caminho, Tag tag) {
         this.caminho = caminho;
         this.duracao = duracao;
+        titulo = "Título Desconhecido";
+        artista = "Artista Desconhecido";
+        album = "Album Desconhecido";
+        genero = "Gênero Desconhecido";
+        ano = "Ano Desconhecido";
 
         this.tag = tag;
         if (tag != null) {
@@ -55,6 +64,30 @@ public class Musica {
                "Album: " + album + " (" + ano + ")\n" +
                "Gênero: " + genero + "\n" +
                "Duração: " + getDuracaoEmMinutos();
+    }
+
+    public VBox cardMusica() {
+        VBox card = new VBox();
+        Label lTitulo = new Label("Título: " + titulo);
+        lTitulo.setWrapText(true);
+
+        Label lArtista = new Label("Artista: " + artista);
+        lArtista.setWrapText(true);
+
+        Label lAlbumAno = new Label("Album: " + album + " (" + ano + ")");
+        lAlbumAno.setWrapText(true);
+
+        Label lGenero = new Label("Gênero: " + genero);
+        lGenero.setWrapText(true);
+
+        Label lDuracao = new Label("Duração: " + getDuracaoEmMinutos());
+        lDuracao.setWrapText(true);
+
+        card.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        card.setPrefWidth(350);
+
+        card.getChildren().addAll(lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
+        return card;
     }
 
     // exibe todos metadados presentes no arquivo

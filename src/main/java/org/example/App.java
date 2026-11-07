@@ -23,7 +23,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Biblioteca b = new Biblioteca("./musicas-teste");
-
         ArrayList<Musica> musicas = b.getMusicas();
 
         VBox vbox = new VBox();
@@ -34,6 +33,7 @@ public class App extends Application {
         // tira a scroll bar da horizontal
         gridMusicasContainer.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
 
+        // TODO: melhorar a responsividade desse grid
         FlowPane gridMusicas = new FlowPane();
         gridMusicas.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         gridMusicas.setPadding(new Insets(10, 10, 10, 10));
@@ -42,12 +42,8 @@ public class App extends Application {
         // muda a largura do gridMusicas conforme a largura da janela muda de tamanho
         gridMusicas.prefWrapLengthProperty().bind(stage.widthProperty());
 
-        for (int i = 0; i < musicas.size(); i++) {
-            Musica musica = musicas.get(i);
-            Label musicaInfo = new Label(musica.toString());
-            musicaInfo.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
-            musicaInfo.setPrefWidth(350);
-            gridMusicas.getChildren().add(musicaInfo);
+        for (Musica m : musicas) {
+            gridMusicas.getChildren().add(m.cardMusica());
         }
 
         gridMusicasContainer.setContent(gridMusicas);
