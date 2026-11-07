@@ -11,15 +11,16 @@
 }
 
 .root {
+    /* Definindo cores padroes que poderam ser reutilizadas nesse arquivo e no projeto */
+    bg-color: #DDE6F3;
+    text-color: #333;
+
     -fx-font-family: 'Inter 18pt Regular';
     -fx-font-size: 20px;
+    -fx-background-color: bg-color;
 }
 
-.titulo {
-    -fx-font-family: 'Inter 18pt Bold';
-    -fx-font-size: 128px;
-}
-
-.card-musica {
-    -fx-font-size: 28px;
+/* adiciona text-color a todos elementos dentro de card-musica */
+.card-musica * {
+    -fx-text-fill: text-color;
 }

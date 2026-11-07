@@ -3,7 +3,6 @@ package modelos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
@@ -68,26 +67,29 @@ public class Musica {
 
     public VBox cardMusica() {
         VBox card = new VBox();
-        Label lTitulo = new Label("Título: " + titulo);
-        lTitulo.setWrapText(true);
+        card.setSpacing(6);
+        card.setPrefWidth(400);
+        card.setStyle("-fx-font-size: 24px;");
+        card.getStyleClass().add("card-musica");
 
-        Label lArtista = new Label("Artista: " + artista);
-        lArtista.setWrapText(true);
+        Label lTitulo = new Label(titulo);
+        // lTitulo.setWrapText(true);
+        lTitulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 48px;");
 
-        Label lAlbumAno = new Label("Album: " + album + " (" + ano + ")");
-        lAlbumAno.setWrapText(true);
+        Label lArtista = new Label(artista);
+        // lArtista.setWrapText(true);
+        lArtista.setStyle("-fx-font-size: 32px;");
 
-        Label lGenero = new Label("Gênero: " + genero);
-        lGenero.setWrapText(true);
+        Label lAlbumAno = new Label(album + " (" + ano + ")");
+        // lAlbumAno.setWrapText(true);
 
-        Label lDuracao = new Label("Duração: " + getDuracaoEmMinutos());
-        lDuracao.setWrapText(true);
+        Label lGenero = new Label(genero);
+        // lGenero.setWrapText(true);
 
-        card.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
-        card.setPrefWidth(350);
+        Label lDuracao = new Label(getDuracaoEmMinutos());
+        // lDuracao.setWrapText(true);
 
         card.getChildren().addAll(lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
-        card.getStyleClass().add("card-musica");
         return card;
     }
 
