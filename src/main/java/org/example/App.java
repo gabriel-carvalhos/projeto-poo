@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import modelos.Biblioteca;
 import modelos.Musica;
@@ -22,16 +23,22 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Biblioteca b = new Biblioteca("./musicas-teste");
+        // Biblioteca b = new Biblioteca("./musicas-teste");
+        Biblioteca b = new Biblioteca("D:\\Biblioteca\\Music\\1.2023");
+
         ArrayList<Musica> musicas = b.getMusicas();
 
         VBox vbox = new VBox();
 
         Label titulo = new Label("Músicas");
+        titulo.getStyleClass().add("titulo");
 
         ScrollPane gridMusicasContainer = new ScrollPane();
+        // o conteudo dentro do ScrollPane fica com a largura dele
+        gridMusicasContainer.setFitToWidth(true);
+
         // tira a scroll bar da horizontal
-        gridMusicasContainer.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+        // gridMusicasContainer.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
 
         // TODO: melhorar a responsividade desse grid
         FlowPane gridMusicas = new FlowPane();
@@ -39,8 +46,6 @@ public class App extends Application {
         gridMusicas.setPadding(new Insets(10, 10, 10, 10));
         gridMusicas.setHgap(10);
         gridMusicas.setVgap(10);
-        // muda a largura do gridMusicas conforme a largura da janela muda de tamanho
-        gridMusicas.prefWrapLengthProperty().bind(stage.widthProperty());
 
         for (Musica m : musicas) {
             gridMusicas.getChildren().add(m.cardMusica());
@@ -52,6 +57,9 @@ public class App extends Application {
         vbox.getChildren().add(gridMusicasContainer);
 
         Scene scene = new Scene(vbox, LARGURA, ALTURA);
+        // carregando arquivo style.css
+        scene.getStylesheets().add("style.css");
+
         stage.setTitle("Projeto POO");
         stage.setMinWidth(LARGURA);
         stage.setMinHeight(ALTURA);

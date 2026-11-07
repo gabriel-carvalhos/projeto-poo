@@ -1,0 +1,25 @@
+/* Carregando fontes internas com peso Regular e Bold  */
+@font-face {
+    font-family: 'Inter 18pt Regular';
+    src: url('fonts/Inter_18pt-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Inter 18pt Bold';
+    font-weight: bold;
+    src: url('fonts/Inter_18pt-Bold.ttf');
+}
+
+.root {
+    -fx-font-family: 'Inter 18pt Regular';
+    -fx-font-size: 20px;
+}
+
+.titulo {
+    -fx-font-family: 'Inter 18pt Bold';
+    -fx-font-size: 128px;
+}
+
+.card-musica {
+    -fx-font-size: 28px;
+}

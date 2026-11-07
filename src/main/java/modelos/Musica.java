@@ -87,6 +87,7 @@ public class Musica {
         card.setPrefWidth(350);
 
         card.getChildren().addAll(lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
+        card.getStyleClass().add("card-musica");
         return card;
     }
 
