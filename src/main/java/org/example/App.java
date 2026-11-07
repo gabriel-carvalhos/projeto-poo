@@ -2,6 +2,7 @@ package org.example;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -34,6 +35,7 @@ public class App extends Application {
         // o conteudo dentro do ScrollPane fica com a largura e altura da janela
         gridMusicasContainer.setFitToWidth(true);
         gridMusicasContainer.setFitToHeight(true);
+        gridMusicasContainer.setPannable(true);
         // remove a borda do ScrollPane
         gridMusicasContainer.setStyle("-fx-background-color: transparent;");
 
@@ -43,6 +45,7 @@ public class App extends Application {
         gridMusicas.setHgap(36);
         gridMusicas.setVgap(58);
         gridMusicas.setStyle("-fx-background-color: bg-color;");
+        gridMusicas.setAlignment(Pos.CENTER);
         gridMusicas.getStyleClass().add("grid-musicas");
 
         for (Musica m : musicas) {

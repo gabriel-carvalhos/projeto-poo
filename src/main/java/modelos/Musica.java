@@ -1,20 +1,26 @@
 package modelos;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.images.Artwork;
+
+import java.io.ByteArrayInputStream;
 
 public class Musica {
     private int duracao;
     private String caminho;
-    private Tag tag;
+    // private Tag tag;
     private String titulo;
     private String artista;
     private String album;
     private String genero;
     private String ano;
+    private Artwork capa;
 
     public Musica(int duracao, String caminho, Tag tag) {
         this.caminho = caminho;
@@ -24,8 +30,9 @@ public class Musica {
         album = "Album Desconhecido";
         genero = "Gênero Desconhecido";
         ano = "Ano Desconhecido";
+        capa = null;
 
-        this.tag = tag;
+        // this.tag = tag;
         if (tag != null) {
             titulo = tag.getFirst(FieldKey.TITLE);
             titulo = titulo.isEmpty() ? "Título Desconhecido" : titulo;
@@ -42,6 +49,8 @@ public class Musica {
             // TODO: verificar se essa solucao com substring funciona para todos formatos de arquivo
             ano = tag.getFirst(FieldKey.YEAR);
             ano = ano.isEmpty() || ano.length() < 4 ? "Ano Desconhecido" : ano.substring(0, 4);
+
+            capa = tag.getFirstArtwork();
         }
     }
 
@@ -89,8 +98,29 @@ public class Musica {
         Label lDuracao = new Label(getDuracaoEmMinutos());
         // lDuracao.setWrapText(true);
 
-        card.getChildren().addAll(lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
+        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
         return card;
+    }
+
+    public ImageView capaMusica() {
+        // TODO: exibir imagem padrão para musicas sem capa
+        if (capa == null) {
+            return null;
+        }
+
+        byte[] imageBytes = capa.getBinaryData();
+        if (imageBytes == null || imageBytes.length <= 0) {
+            return null;
+        }
+
+        // TODO: deixar a borda arrendodada
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+        Image image = new Image(inputStream);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(400);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        return imageView;
     }
 
     // exibe todos metadados presentes no arquivo
