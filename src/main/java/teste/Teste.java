@@ -7,11 +7,7 @@ import java.util.ArrayList;
 
 public class Teste {
     public static void main(String[] args) {
-        Biblioteca b = new Biblioteca();
-        Leitor l = new Leitor();
-
-        ArrayList<String> caminhos = l.lerTodosArquivosDoDiretorio("./musicas-teste");
-        b.adicionarMusica(caminhos);
+        Biblioteca b = new Biblioteca("./musicas-teste");
 
         b.exibirTodasMusicas();
         // b.procurarPorTitulo("A Prosa").exibirTodosMetadados();

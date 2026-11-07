@@ -1,24 +1,64 @@
 package org.example;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import modelos.Biblioteca;
+import modelos.Musica;
 
+import java.util.ArrayList;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
+    public static int LARGURA = 640;
+    public static int ALTURA = 480;
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
+        Biblioteca b = new Biblioteca("./musicas-teste");
 
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        var scene = new Scene(new StackPane(label), 640, 480);
+        ArrayList<Musica> musicas = b.getMusicas();
+
+        VBox vbox = new VBox();
+
+        Label titulo = new Label("Músicas");
+
+        ScrollPane gridMusicasContainer = new ScrollPane();
+        // tira a scroll bar da horizontal
+        gridMusicasContainer.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+
+        FlowPane gridMusicas = new FlowPane();
+        gridMusicas.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        gridMusicas.setPadding(new Insets(10, 10, 10, 10));
+        gridMusicas.setHgap(10);
+        gridMusicas.setVgap(10);
+        // muda a largura do gridMusicas conforme a largura da janela muda de tamanho
+        gridMusicas.prefWrapLengthProperty().bind(stage.widthProperty());
+
+        for (int i = 0; i < musicas.size(); i++) {
+            Musica musica = musicas.get(i);
+            Label musicaInfo = new Label(musica.toString());
+            musicaInfo.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+            musicaInfo.setPrefWidth(350);
+            gridMusicas.getChildren().add(musicaInfo);
+        }
+
+        gridMusicasContainer.setContent(gridMusicas);
+
+        vbox.getChildren().add(titulo);
+        vbox.getChildren().add(gridMusicasContainer);
+
+        Scene scene = new Scene(vbox, LARGURA, ALTURA);
+        stage.setTitle("Projeto POO");
+        stage.setMinWidth(LARGURA);
+        stage.setMinHeight(ALTURA);
         stage.setScene(scene);
         stage.show();
     }

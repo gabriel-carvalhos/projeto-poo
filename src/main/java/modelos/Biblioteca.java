@@ -10,6 +10,14 @@ import java.util.ArrayList;
 public class Biblioteca {
     private ArrayList<Musica> musicas = new ArrayList<>();
 
+    public Biblioteca(String caminho) {
+        adicionarMusica(new Leitor().lerTodosArquivosDoDiretorio(caminho));
+    }
+
+    public ArrayList<Musica> getMusicas() {
+        return musicas;
+    }
+
     // le o arquivo com base no caminho, e adiciona a musica ao ArrayList
     public void adicionarMusica(String caminho) {
         try {
