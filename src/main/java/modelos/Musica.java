@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
@@ -20,7 +19,10 @@ public class Musica {
     private String album;
     private String genero;
     private String ano;
-    private Artwork capa;
+    private Image capa;
+
+    // TODO: entender por que ele pode retornar null
+    private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
 
     public Musica(int duracao, String caminho, Tag tag) {
         this.caminho = caminho;
@@ -50,8 +52,29 @@ public class Musica {
             ano = tag.getFirst(FieldKey.YEAR);
             ano = ano.isEmpty() || ano.length() < 4 ? "Ano Desconhecido" : ano.substring(0, 4);
 
-            capa = tag.getFirstArtwork();
+            capa = carregarCapa(tag.getFirstArtwork());
         }
+    }
+
+    public Image carregarCapa(Artwork art) {
+        if (art == null) {
+            return CAPA_PADRAO;
+        }
+
+        try {
+            byte[] imageBytes = art.getBinaryData();
+            if (imageBytes == null || imageBytes.length == 0) {
+                return CAPA_PADRAO;
+            }
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+            Image capa = new Image(inputStream);
+            return capa.isError() ? CAPA_PADRAO : capa;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CAPA_PADRAO;
+        }
+
     }
 
     public String getTitulo() {
@@ -103,20 +126,8 @@ public class Musica {
     }
 
     public ImageView capaMusica() {
-        // TODO: exibir imagem padrão para musicas sem capa
-        if (capa == null) {
-            return null;
-        }
-
-        byte[] imageBytes = capa.getBinaryData();
-        if (imageBytes == null || imageBytes.length <= 0) {
-            return null;
-        }
-
         // TODO: deixar a borda arrendodada
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
-        Image image = new Image(inputStream);
-        ImageView imageView = new ImageView(image);
+        ImageView imageView = new ImageView(capa);
         imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
