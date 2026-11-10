@@ -22,7 +22,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Biblioteca b = new Biblioteca("./musicas-teste");
+        Biblioteca b = new Biblioteca("/home/gabriel/Músicas/Terno Rei");
 
         ArrayList<Musica> musicas = b.getMusicas();
 

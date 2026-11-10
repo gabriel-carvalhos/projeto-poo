@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
@@ -69,12 +70,13 @@ public class Musica {
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
             Image capa = new Image(inputStream);
+            // System.out.println(capa.isError());
             return capa.isError() ? CAPA_PADRAO : capa;
         } catch (Exception e) {
             e.printStackTrace();
+            // capa.getException().printStackTrace();
             return CAPA_PADRAO;
         }
-
     }
 
     public String getTitulo() {
@@ -131,6 +133,12 @@ public class Musica {
         imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
+
+        Rectangle clip = new Rectangle(imageView.getBoundsInLocal().getWidth(), imageView.getBoundsInLocal().getHeight());
+        clip.setArcHeight(14);
+        clip.setArcWidth(14);
+        imageView.setClip(clip);
+
         return imageView;
     }
 
