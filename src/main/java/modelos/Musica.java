@@ -128,7 +128,7 @@ public class Musica {
         return card;
     }
 
-    public ImageView capaMusica() {
+    private ImageView capaMusica() {
         ImageView imageView = new ImageView(capa);
         imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
