@@ -5,7 +5,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.media.Media;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
@@ -123,6 +125,11 @@ public class Musica {
 
         Label lDuracao = new Label(getDuracaoEmMinutos());
         lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
+
+        // System.out.println(caminho);
+        // Media midia = new Media(caminho);
+        // MediaPlayer tocador = new MediaPlayer(midia);
+        // tocador.play();
 
         card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
         return card;

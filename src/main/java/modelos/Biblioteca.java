@@ -25,7 +25,7 @@ public class Biblioteca {
     public void adicionarMusica(String caminho) {
         try {
             File file = new File(caminho);
-
+            caminho = file.toURI().toString();
             AudioFile audioFile = AudioFileIO.read(file);
             int duracao = audioFile.getAudioHeader().getTrackLength();
             Tag tag = audioFile.getTag();
