@@ -1,6 +1,7 @@
 package modelos;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -57,7 +58,7 @@ public class Musica {
         }
     }
 
-    public Image carregarCapa(Artwork art) {
+    private Image carregarCapa(Artwork art) {
         if (art == null) {
             return CAPA_PADRAO;
         }
@@ -107,33 +108,33 @@ public class Musica {
         card.getStyleClass().add("card-musica");
 
         Label lTitulo = new Label(titulo);
-        // lTitulo.setWrapText(true);
+        lTitulo.setTooltip(new Tooltip(lTitulo.getText()));
         lTitulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 48px;");
 
         Label lArtista = new Label(artista);
-        // lArtista.setWrapText(true);
+        lArtista.setTooltip(new Tooltip(lArtista.getText()));
         lArtista.setStyle("-fx-font-size: 32px;");
 
         Label lAlbumAno = new Label(album + " (" + ano + ")");
-        // lAlbumAno.setWrapText(true);
+        lAlbumAno.setTooltip(new Tooltip(lAlbumAno.getText()));
 
         Label lGenero = new Label(genero);
-        // lGenero.setWrapText(true);
+        lGenero.setTooltip(new Tooltip(lGenero.getText()));
 
         Label lDuracao = new Label(getDuracaoEmMinutos());
-        // lDuracao.setWrapText(true);
+        lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
 
         card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
         return card;
     }
 
     public ImageView capaMusica() {
-        // TODO: deixar a borda arrendodada
         ImageView imageView = new ImageView(capa);
         imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
 
+        // adiciona arredondamento de borda de 14px
         Rectangle clip = new Rectangle(imageView.getBoundsInLocal().getWidth(), imageView.getBoundsInLocal().getHeight());
         clip.setArcHeight(14);
         clip.setArcWidth(14);

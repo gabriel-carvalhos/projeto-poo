@@ -24,3 +24,8 @@
 .card-musica * {
     -fx-text-fill: text-color;
 }
+
+/* acionando a cor do texto branco para o texto dos tooltip */
+.tooltip {
+    -fx-text-fill: white;
+}
