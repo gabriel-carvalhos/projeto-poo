@@ -1,5 +1,6 @@
 package modelos;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -126,12 +127,21 @@ public class Musica {
         Label lDuracao = new Label(getDuracaoEmMinutos());
         lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
 
-        // System.out.println(caminho);
-        // Media midia = new Media(caminho);
-        // MediaPlayer tocador = new MediaPlayer(midia);
-        // tocador.play();
+        Media midia = new Media(caminho);
+        MediaPlayer tocador = new MediaPlayer(midia);
+        Button play = new Button("Play");
 
-        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
+        play.setOnAction(ActionEvent -> {
+            if (tocador.getStatus() == MediaPlayer.Status.PLAYING) {
+                tocador.pause();
+                play.setText("Play");
+            } else {
+                tocador.play();
+                play.setText("Pause");
+            }
+        });
+
+        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao, play);
         return card;
     }
 
