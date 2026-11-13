@@ -19,9 +19,9 @@ public class App extends Application {
     public void start(Stage stage) {
         Biblioteca b = new Biblioteca("./musicas-teste");
 
-        // ArrayList<Musica> musicas = b.getMusicas();
+        AnchorPane root = new AnchorPane();
 
-        VBox vbox = new VBox();
+        VBox conteudoPrincipal = new VBox();
 
         Label titulo = new Label("Músicas");
         titulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 128px; -fx-text-fill: text-color;");
@@ -36,10 +36,25 @@ public class App extends Application {
 
         gridMusicasContainer.setContent(b.gridMusicas());
 
-        vbox.getChildren().add(titulo);
-        vbox.getChildren().add(gridMusicasContainer);
+        conteudoPrincipal.getChildren().addAll(titulo, gridMusicasContainer);
 
-        Scene scene = new Scene(vbox, LARGURA, ALTURA);
+        HBox rodape = new HBox();
+        rodape.setPrefHeight(60);
+        rodape.setStyle("-fx-background-color: rgba(51, 51, 51, 0.5)");
+        rodape.getChildren().add(new Label("Rodape"));
+
+        AnchorPane.setTopAnchor(conteudoPrincipal, 0.0);
+        AnchorPane.setLeftAnchor(conteudoPrincipal, 0.0);
+        AnchorPane.setRightAnchor(conteudoPrincipal, 0.0);
+        AnchorPane.setBottomAnchor(conteudoPrincipal, 0.0);
+
+        AnchorPane.setBottomAnchor(rodape, 0.0);
+        AnchorPane.setLeftAnchor(rodape, 0.0);
+        AnchorPane.setRightAnchor(rodape, 0.0);
+
+        root.getChildren().addAll(conteudoPrincipal, rodape);
+
+        Scene scene = new Scene(root, LARGURA, ALTURA);
         // carregando arquivo style.css
         scene.getStylesheets().add("style.css");
 
