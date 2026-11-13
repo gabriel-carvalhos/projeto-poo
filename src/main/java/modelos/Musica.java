@@ -6,6 +6,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
 import javafx.scene.shape.Rectangle;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
@@ -25,6 +26,7 @@ public class Musica {
     private String genero;
     private String ano;
     private Image capa;
+    private Media media;
 
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
@@ -39,6 +41,7 @@ public class Musica {
         genero = "Gênero Desconhecido";
         ano = "Ano Desconhecido";
         capa = null;
+        media = new Media(caminhoURI);
 
         // this.tag = tag;
         if (tag != null) {
@@ -82,6 +85,10 @@ public class Musica {
             // capa.getException().printStackTrace();
             return CAPA_PADRAO;
         }
+    }
+
+    public Media getMedia() {
+        return media;
     }
 
     public String getCaminhoURI() {

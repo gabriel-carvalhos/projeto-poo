@@ -25,6 +25,10 @@ public class Player {
     }
 
     public boolean isPlaying() {
+        if (player == null) {
+            return false;
+        }
+
         return player.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
@@ -40,23 +44,18 @@ public class Player {
             // se nao precisa trocar, e musica nao esta tocando, ele retoma
             System.out.println("Retomando a mesma musica");
             player.play();
-            toggleText(btnAtual);
+            btnAtual.setText("Pause");
             return;
         }
 
         // se precisa trocar, ele para a atual e da play na nova
         stop();
 
-        if (btnAtual != null) {
-            toggleText(btnAtual);
-        }
-
         System.out.println("Trocando musica");
-        Media media = new Media(musica.getCaminhoURI());
-        player = new MediaPlayer(media);
+        player = new MediaPlayer(musica.getMedia());
         player.play();
 
-        toggleText(btnNovo);
+        btnNovo.setText("Pause");
         btnAtual = btnNovo;
         musicaAtual.set(musica);
     }
@@ -67,7 +66,7 @@ public class Player {
             player.pause();
         }
 
-        toggleText(btnAtual);
+        btnAtual.setText("Play");
     }
 
     public void stop() {
@@ -79,19 +78,10 @@ public class Player {
         }
 
         if (btnAtual != null) {
-            toggleText(btnAtual);
+            btnAtual.setText("Play");
         }
 
         musicaAtual.set(null);
         btnAtual = null;
-    }
-
-    public void toggleText(Button btn) {
-        if (btn.getText().equals("Play")) {
-            btn.setText("Pause");
-            return;
-        }
-
-        btn.setText("Play");
     }
 }
