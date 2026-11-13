@@ -40,7 +40,7 @@ public class Player {
             // se nao precisa trocar, e musica nao esta tocando, ele retoma
             System.out.println("Retomando a mesma musica");
             player.play();
-            btnAtual.setText("Pause");
+            toggleText(btnAtual);
             return;
         }
 
@@ -48,14 +48,15 @@ public class Player {
         stop();
 
         if (btnAtual != null) {
-            btnAtual.setText("Play");
+            toggleText(btnAtual);
         }
 
         System.out.println("Trocando musica");
         Media media = new Media(musica.getCaminhoURI());
         player = new MediaPlayer(media);
         player.play();
-        btnNovo.setText("Pause");
+
+        toggleText(btnNovo);
         btnAtual = btnNovo;
         musicaAtual.set(musica);
     }
@@ -66,7 +67,7 @@ public class Player {
             player.pause();
         }
 
-        btnAtual.setText("Play");
+        toggleText(btnAtual);
     }
 
     public void stop() {
@@ -78,11 +79,19 @@ public class Player {
         }
 
         if (btnAtual != null) {
-            btnAtual.setText("Play");
+            toggleText(btnAtual);
         }
 
         musicaAtual.set(null);
         btnAtual = null;
     }
 
+    public void toggleText(Button btn) {
+        if (btn.getText().equals("Play")) {
+            btn.setText("Pause");
+            return;
+        }
+
+        btn.setText("Play");
+    }
 }
