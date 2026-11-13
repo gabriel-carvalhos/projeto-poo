@@ -86,8 +86,8 @@ public class Musica {
         }
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getCaminhoURI() {
+        return caminhoURI;
     }
 
     public String getDuracaoEmMinutos() {
@@ -130,12 +130,11 @@ public class Musica {
         Label lDuracao = new Label(getDuracaoEmMinutos());
         lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
 
-        Media media = new Media(caminhoURI);
         Player player = Player.getInstance();
 
         Button btnPlay = new Button("Play");
         btnPlay.setOnAction(ActionEvent -> {
-            player.play(media, btnPlay);
+            player.play(this, btnPlay);
         });
 
         card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao, btnPlay);
