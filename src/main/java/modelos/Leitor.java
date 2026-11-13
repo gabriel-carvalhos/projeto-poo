@@ -1,5 +1,9 @@
 package modelos;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.Tag;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 public class Leitor {
 
     // TODO: validar se o arquivo é suportado pela biblioteca
-    public ArrayList<String> lerTodosArquivosDoDiretorio(String caminho) {
+    public static ArrayList<String> lerTodosArquivosDoDiretorio(String caminho) {
         File pasta = new File(caminho);
 
         if (!pasta.exists() || !pasta.isDirectory()) {
@@ -33,7 +37,7 @@ public class Leitor {
         return caminhos;
     }
 
-    public ArrayList<String> buscaRecursiva(Path raiz) {
+    private static ArrayList<String> buscaRecursiva(Path raiz) {
         ArrayList<String> caminhos = new ArrayList<>();
         try {
             Files.walkFileTree(raiz, new SimpleFileVisitor<>() {
@@ -56,6 +60,21 @@ public class Leitor {
         }
 
         return caminhos;
+    }
+
+    public static Musica lerMusica(String caminho) {
+        try {
+            File file = new File(caminho);
+            String caminhoURI = file.toURI().toString();
+            AudioFile audioFile = AudioFileIO.read(file);
+            int duracao = audioFile.getAudioHeader().getTrackLength();
+            Tag tag = audioFile.getTag();
+
+            return new Musica(duracao, caminho, tag, caminhoURI);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 //    public void buscaRecursiva(File[] arquivos, ArrayList<String> caminhos) {
