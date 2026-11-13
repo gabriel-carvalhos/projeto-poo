@@ -14,10 +14,12 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 public class Musica {
     private int duracao;
     private String caminho;
+    private String caminhoURI;
     // private Tag tag;
     private String titulo;
     private String artista;
@@ -29,9 +31,10 @@ public class Musica {
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
 
-    public Musica(int duracao, String caminho, Tag tag) {
+    public Musica(int duracao, String caminho, Tag tag, String caminhoURI) {
         this.caminho = caminho;
         this.duracao = duracao;
+        this.caminhoURI = caminhoURI;
         titulo = "Título Desconhecido";
         artista = "Artista Desconhecido";
         album = "Album Desconhecido";
@@ -127,21 +130,15 @@ public class Musica {
         Label lDuracao = new Label(getDuracaoEmMinutos());
         lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
 
-        Media midia = new Media(caminho);
-        MediaPlayer tocador = new MediaPlayer(midia);
-        Button play = new Button("Play");
+        Media media = new Media(caminhoURI);
+        Player player = Player.getInstance();
 
-        play.setOnAction(ActionEvent -> {
-            if (tocador.getStatus() == MediaPlayer.Status.PLAYING) {
-                tocador.pause();
-                play.setText("Play");
-            } else {
-                tocador.play();
-                play.setText("Pause");
-            }
+        Button btnPlay = new Button("Play");
+        btnPlay.setOnAction(ActionEvent -> {
+            player.play(media, btnPlay);
         });
 
-        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao, play);
+        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao, btnPlay);
         return card;
     }
 

@@ -25,12 +25,12 @@ public class Biblioteca {
     public void adicionarMusica(String caminho) {
         try {
             File file = new File(caminho);
-            caminho = file.toURI().toString();
+            String caminhoURI = file.toURI().toString();
             AudioFile audioFile = AudioFileIO.read(file);
             int duracao = audioFile.getAudioHeader().getTrackLength();
             Tag tag = audioFile.getTag();
 
-            musicas.add(new Musica(duracao, caminho, tag));
+            musicas.add(new Musica(duracao, caminho, tag, caminhoURI));
         } catch (Exception e) {
             e.printStackTrace();
         }
