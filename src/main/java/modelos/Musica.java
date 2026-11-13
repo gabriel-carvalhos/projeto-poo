@@ -1,5 +1,6 @@
 package modelos;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -30,6 +31,7 @@ public class Musica {
 
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
+    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
 
     public Musica(int duracao, String caminho, Tag tag, String caminhoURI) {
         this.caminho = caminho;
@@ -132,17 +134,28 @@ public class Musica {
         Label lGenero = new Label(genero);
         lGenero.setTooltip(new Tooltip(lGenero.getText()));
 
-        Label lDuracao = new Label(getDuracaoEmMinutos());
-        lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
+        HBox playerContainer = new HBox();
 
         Player player = Player.getInstance();
 
-        Button btnPlay = new Button("Play");
+        Button btnPlay = new Button("Play", new ImageView(PLAY_ICON));
+        btnPlay.setGraphicTextGap(10);
+        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: #D21E39; -fx-text-fill: white");
         btnPlay.setOnAction(ActionEvent -> {
             player.play(this, btnPlay);
         });
 
-        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao, btnPlay);
+        Region espaco = new Region();
+        HBox.setHgrow(espaco, Priority.ALWAYS);
+
+        Label lDuracao = new Label(getDuracaoEmMinutos());
+        lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
+
+        playerContainer.getChildren().addAll(btnPlay, espaco, lDuracao);
+        playerContainer.setAlignment(Pos.CENTER);
+
+        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, playerContainer);
+
         return card;
     }
 

@@ -3,6 +3,8 @@ package modelos;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -11,6 +13,9 @@ public class Player {
     private MediaPlayer player;
     private ObjectProperty<Musica> musicaAtual = new SimpleObjectProperty<>();
     private Button btnAtual;
+
+     private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
+     private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
 
     public static Player getInstance() {
         return instance;
@@ -43,8 +48,10 @@ public class Player {
 
             // se nao precisa trocar, e musica nao esta tocando, ele retoma
             System.out.println("Retomando a mesma musica");
+            // player.setOnEndOfMedia(this::stop);
             player.play();
             btnAtual.setText("Pause");
+            btnAtual.setGraphic(new ImageView(PAUSE_ICON));
             return;
         }
 
@@ -56,6 +63,7 @@ public class Player {
         player.play();
 
         btnNovo.setText("Pause");
+        btnNovo.setGraphic(new ImageView(PAUSE_ICON));
         btnAtual = btnNovo;
         musicaAtual.set(musica);
     }
@@ -67,6 +75,7 @@ public class Player {
         }
 
         btnAtual.setText("Play");
+        btnAtual.setGraphic(new ImageView(PLAY_ICON));
     }
 
     public void stop() {
@@ -79,6 +88,7 @@ public class Player {
 
         if (btnAtual != null) {
             btnAtual.setText("Play");
+            btnAtual.setGraphic(new ImageView(PLAY_ICON));
         }
 
         musicaAtual.set(null);
