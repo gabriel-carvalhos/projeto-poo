@@ -2,11 +2,22 @@ package modelos;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 public class Rodape {
     private Biblioteca biblioteca;
+
+    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
+    private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
 
     public Rodape(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
@@ -22,8 +33,57 @@ public class Rodape {
 
         Label lQuantidade = new Label(biblioteca.getSize() + " Músicas Encontradas");
 
-        rodape.getChildren().addAll(lQuantidade);
+        Region espaco = new Region();
+        HBox.setHgrow(espaco, Priority.ALWAYS);
+        Region espaco2 = new Region();
+        HBox.setHgrow(espaco2, Priority.ALWAYS);
+
+        rodape.getChildren().addAll(lQuantidade, espaco, playerContainer(), espaco2);
 
         return rodape;
+    }
+
+    public HBox playerContainer() {
+        HBox container = new HBox();
+
+        Button btnPlay = new Button("", new ImageView(PLAY_ICON));
+        btnPlay.setGraphicTextGap(10);
+        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: #D21E39; -fx-text-fill: white");
+
+        VBox controlesMusica = new VBox();
+        Label lTitulo = new Label();
+        Slider sliderDuracao = new Slider();
+        controlesMusica.getChildren().addAll(lTitulo, sliderDuracao);
+
+        Player player = Player.getInstance();
+
+        btnPlay.setOnAction(ActionEvent -> {
+            if (player.isPlayingProperty().get()) {
+                player.pause();
+            } else {
+                player.retomar();
+            }
+        });
+
+        player.musicaAtualProperty().addListener((obs, antiga, nova) -> {
+            if (nova == null) {
+                container.getChildren().removeAll(btnPlay, controlesMusica);
+                return;
+            }
+
+            lTitulo.setText(nova.getTitulo());
+            container.getChildren().addAll(btnPlay, controlesMusica);
+        });
+
+        player.isPlayingProperty().addListener((obs, antiga, nova) -> {
+            if (nova) {
+                btnPlay.setGraphic(new ImageView(PAUSE_ICON));
+                return;
+            }
+
+            btnPlay.setGraphic(new ImageView(PLAY_ICON));
+        });
+
+        return container;
     }
 }

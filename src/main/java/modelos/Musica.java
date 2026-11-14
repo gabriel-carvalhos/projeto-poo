@@ -89,6 +89,10 @@ public class Musica {
         }
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
     public Media getMedia() {
         return media;
     }

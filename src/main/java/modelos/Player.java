@@ -13,45 +13,42 @@ public class Player {
     private MediaPlayer player;
     private ObjectProperty<Musica> musicaAtual = new SimpleObjectProperty<>();
     private Button btnAtual;
+    private ObjectProperty<Boolean> isPlaying = new SimpleObjectProperty<>();
 
-     private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
-     private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
+    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
+    private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
 
     public static Player getInstance() {
         return instance;
     }
 
-    public MediaPlayer.Status getStatus() {
-        if (player == null) {
-            return null;
-        }
-
-        return player.getStatus();
+    public ObjectProperty<Musica> musicaAtualProperty() {
+        return musicaAtual;
     }
 
-    public boolean isPlaying() {
-        if (player == null) {
-            return false;
-        }
-
-        return player.getStatus() == MediaPlayer.Status.PLAYING;
+    public ObjectProperty<Boolean> isPlayingProperty() {
+        return isPlaying;
     }
+
+    // public boolean isPlaying() {
+    //    if (player == null) {
+    //        return false;
+    //    }
+    //
+    //    return player.getStatus() == MediaPlayer.Status.PLAYING;
+    // }
 
     public void play(Musica musica, Button btnNovo) {
         // verificando se precisa trocar de musica
         if (player != null && musicaAtual.get() == musica) {
             // se nao precisa trocar, e a musica esta tocando, ele pausa
-            if (isPlaying()) {
+            if (isPlaying.get()) {
                 pause();
                 return;
             }
 
             // se nao precisa trocar, e musica nao esta tocando, ele retoma
-            System.out.println("Retomando a mesma musica");
-            // player.setOnEndOfMedia(this::stop);
-            player.play();
-            btnAtual.setText("Pause");
-            btnAtual.setGraphic(new ImageView(PAUSE_ICON));
+            retomar();
             return;
         }
 
@@ -61,17 +58,27 @@ public class Player {
         System.out.println("Trocando musica");
         player = new MediaPlayer(musica.getMedia());
         player.play();
-
+        isPlaying.set(true);
         btnNovo.setText("Pause");
         btnNovo.setGraphic(new ImageView(PAUSE_ICON));
         btnAtual = btnNovo;
         musicaAtual.set(musica);
     }
 
+    public void retomar() {
+        System.out.println("Retomando a mesma musica");
+        // player.setOnEndOfMedia(this::stop);
+        player.play();
+        isPlaying.set(true);
+        btnAtual.setText("Pause");
+        btnAtual.setGraphic(new ImageView(PAUSE_ICON));
+    }
+
     public void pause() {
         if (player != null) {
             System.out.println("Pausando");
             player.pause();
+            isPlaying.set(false);
         }
 
         btnAtual.setText("Play");
@@ -92,6 +99,7 @@ public class Player {
         }
 
         musicaAtual.set(null);
+        isPlaying.set(false);
         btnAtual = null;
     }
 }
