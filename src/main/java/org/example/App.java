@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import modelos.Biblioteca;
+import modelos.Rodape;
 
 /**
  * JavaFX App
@@ -38,10 +39,7 @@ public class App extends Application {
 
         conteudoPrincipal.getChildren().addAll(titulo, gridMusicasContainer);
 
-        HBox rodape = new HBox();
-        rodape.setPrefHeight(60);
-        rodape.setStyle("-fx-background-color: rgba(51, 51, 51, 0.5)");
-        rodape.getChildren().add(new Label("Rodape"));
+        HBox rodape = new Rodape(b).rodape();
 
         AnchorPane.setTopAnchor(conteudoPrincipal, 0.0);
         AnchorPane.setLeftAnchor(conteudoPrincipal, 0.0);

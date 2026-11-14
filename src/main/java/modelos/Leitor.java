@@ -72,6 +72,7 @@ public class Leitor {
 
             return new Musica(duracao, caminho, tag, caminhoURI);
         } catch (Exception e) {
+            System.out.println("Erro no leitura da musica!");
             e.printStackTrace();
             return null;
         }

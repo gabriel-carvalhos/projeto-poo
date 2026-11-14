@@ -29,3 +29,7 @@
 .tooltip {
     -fx-text-fill: white;
 }
+
+.rodape * {
+    -fx-text-fill: white;
+}

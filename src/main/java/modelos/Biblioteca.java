@@ -17,13 +17,20 @@ public class Biblioteca {
         return musicas;
     }
 
+    public int getSize() {
+        return musicas.size();
+    }
+
     // le o arquivo com base no caminho, e adiciona a musica ao ArrayList
     public void adicionarMusica(String caminho) {
         if (caminho == null) {
             return;
         }
 
-        musicas.add(Leitor.lerMusica(caminho));
+        Musica musica = Leitor.lerMusica(caminho);
+        if (musica != null) {
+            musicas.add(musica);
+        }
     }
 
     public void adicionarMusica(ArrayList<String> caminhos) {
@@ -41,12 +48,13 @@ public class Biblioteca {
     public FlowPane gridMusicas() {
         // TODO: melhorar a responsividade desse grid
         FlowPane gridMusicas = new FlowPane();
-        gridMusicas.setPadding(new Insets(10, 10, 10, 10));
+        // setando o padding inferior para 80, para distanciar o rodape do gridMusicas
+        gridMusicas.setPadding(new Insets(0, 0, 80, 0));
         gridMusicas.setHgap(36);
         gridMusicas.setVgap(58);
         gridMusicas.setStyle("-fx-background-color: bg-color;");
         gridMusicas.setAlignment(Pos.CENTER);
-        gridMusicas.getStyleClass().add("grid-musicas");
+        // gridMusicas.getStyleClass().add("grid-musicas");
 
         for (Musica m : musicas) {
             gridMusicas.getChildren().add(m.cardMusica());
