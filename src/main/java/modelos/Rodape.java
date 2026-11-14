@@ -16,9 +16,6 @@ import javafx.scene.layout.VBox;
 public class Rodape {
     private Biblioteca biblioteca;
 
-    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
-    private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
-
     public Rodape(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
@@ -46,14 +43,20 @@ public class Rodape {
     public HBox playerContainer() {
         HBox container = new HBox();
 
-        Button btnPlay = new Button("", new ImageView(PLAY_ICON));
-        btnPlay.setGraphicTextGap(10);
-        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: #D21E39; -fx-text-fill: white");
+        ImageView playIcon = Components.playIcon();
+        ImageView pauseIcon = Components.pauseIcon();
+
+        Button btnPlay = Components.btnPlay();
+        btnPlay.setPrefSize(50, 50);
+        btnPlay.setAlignment(Pos.CENTER);
 
         VBox controlesMusica = new VBox();
         Label lTitulo = new Label();
         Slider sliderDuracao = new Slider();
         controlesMusica.getChildren().addAll(lTitulo, sliderDuracao);
+
+        container.getChildren().addAll(btnPlay, controlesMusica);
+        container.setVisible(false);
 
         Player player = Player.getInstance();
 
@@ -67,21 +70,21 @@ public class Rodape {
 
         player.musicaAtualProperty().addListener((obs, antiga, nova) -> {
             if (nova == null) {
-                container.getChildren().removeAll(btnPlay, controlesMusica);
+                container.setVisible(false);
                 return;
             }
 
             lTitulo.setText(nova.getTitulo());
-            container.getChildren().addAll(btnPlay, controlesMusica);
+            container.setVisible(true);
         });
 
         player.isPlayingProperty().addListener((obs, antiga, nova) -> {
             if (nova) {
-                btnPlay.setGraphic(new ImageView(PAUSE_ICON));
+                btnPlay.setGraphic(pauseIcon);
                 return;
             }
 
-            btnPlay.setGraphic(new ImageView(PLAY_ICON));
+            btnPlay.setGraphic(playIcon);
         });
 
         return container;

@@ -2,21 +2,13 @@ package modelos;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 public class Player {
     private static Player instance = new Player();
     private MediaPlayer player;
     private ObjectProperty<Musica> musicaAtual = new SimpleObjectProperty<>();
-    private Button btnAtual;
     private ObjectProperty<Boolean> isPlaying = new SimpleObjectProperty<>();
-
-    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
-    private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
 
     public static Player getInstance() {
         return instance;
@@ -38,7 +30,7 @@ public class Player {
     //    return player.getStatus() == MediaPlayer.Status.PLAYING;
     // }
 
-    public void play(Musica musica, Button btnNovo) {
+    public void play(Musica musica) {
         // verificando se precisa trocar de musica
         if (player != null && musicaAtual.get() == musica) {
             // se nao precisa trocar, e a musica esta tocando, ele pausa
@@ -59,9 +51,6 @@ public class Player {
         player = new MediaPlayer(musica.getMedia());
         player.play();
         isPlaying.set(true);
-        btnNovo.setText("Pause");
-        btnNovo.setGraphic(new ImageView(PAUSE_ICON));
-        btnAtual = btnNovo;
         musicaAtual.set(musica);
     }
 
@@ -70,8 +59,6 @@ public class Player {
         // player.setOnEndOfMedia(this::stop);
         player.play();
         isPlaying.set(true);
-        btnAtual.setText("Pause");
-        btnAtual.setGraphic(new ImageView(PAUSE_ICON));
     }
 
     public void pause() {
@@ -80,9 +67,6 @@ public class Player {
             player.pause();
             isPlaying.set(false);
         }
-
-        btnAtual.setText("Play");
-        btnAtual.setGraphic(new ImageView(PLAY_ICON));
     }
 
     public void stop() {
@@ -93,13 +77,7 @@ public class Player {
             player = null;
         }
 
-        if (btnAtual != null) {
-            btnAtual.setText("Play");
-            btnAtual.setGraphic(new ImageView(PLAY_ICON));
-        }
-
         musicaAtual.set(null);
         isPlaying.set(false);
-        btnAtual = null;
     }
 }

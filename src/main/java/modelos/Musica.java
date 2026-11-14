@@ -14,7 +14,6 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 
 public class Musica {
     private int duracao;
@@ -31,7 +30,6 @@ public class Musica {
 
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
-    private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
 
     public Musica(int duracao, String caminho, Tag tag, String caminhoURI) {
         this.caminho = caminho;
@@ -142,12 +140,28 @@ public class Musica {
 
         Player player = Player.getInstance();
 
-        Button btnPlay = new Button("Play", new ImageView(PLAY_ICON));
+        ImageView playIcon = Components.playIcon();
+        ImageView pauseIcon = Components.pauseIcon();
+
+        Button btnPlay = Components.btnPlay();
+        btnPlay.setText("Play");
         btnPlay.setGraphicTextGap(10);
-        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: #D21E39; -fx-text-fill: white");
+
         btnPlay.setOnAction(ActionEvent -> {
-            player.play(this, btnPlay);
+            player.play(this);
         });
+
+        Runnable atualizar = () -> {
+            if (player.musicaAtualProperty().get() == this && player.isPlayingProperty().get()) {
+                btnPlay.setText("Pause");
+                btnPlay.setGraphic(pauseIcon);
+            } else {
+                btnPlay.setText("Play");
+                btnPlay.setGraphic(playIcon);
+            }
+        };
+        player.musicaAtualProperty().addListener((obs, antigo, nova) -> atualizar.run());
+        player.isPlayingProperty().addListener((obs, antigo, nova) -> atualizar.run());
 
         Region espaco = new Region();
         HBox.setHgrow(espaco, Priority.ALWAYS);
