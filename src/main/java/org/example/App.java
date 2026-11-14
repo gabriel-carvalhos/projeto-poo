@@ -23,6 +23,7 @@ public class App extends Application {
         AnchorPane root = new AnchorPane();
 
         VBox conteudoPrincipal = new VBox();
+        conteudoPrincipal.setStyle("-fx-background-color: bg-color;");
 
         Label titulo = new Label("Músicas");
         titulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 128px; -fx-text-fill: text-color;");

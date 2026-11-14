@@ -20,7 +20,7 @@ public class Components {
         ImageView playIcon = playIcon();
         Button btnPlay = new Button();
         btnPlay.setGraphic(playIcon);
-        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: #D21E39; -fx-text-fill: white");
+        btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: primary-red; -fx-text-fill: white");
         return btnPlay;
     }
 }

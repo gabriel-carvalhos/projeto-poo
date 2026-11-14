@@ -48,8 +48,8 @@ public class Biblioteca {
     public FlowPane gridMusicas() {
         // TODO: melhorar a responsividade desse grid
         FlowPane gridMusicas = new FlowPane();
-        // setando o padding inferior para 80, para distanciar o rodape do gridMusicas
-        gridMusicas.setPadding(new Insets(0, 0, 80, 0));
+        // setando o padding inferior para 100, para distanciar o rodape do gridMusicas
+        gridMusicas.setPadding(new Insets(0, 0, 100, 0));
         gridMusicas.setHgap(36);
         gridMusicas.setVgap(58);
         gridMusicas.setStyle("-fx-background-color: bg-color;");

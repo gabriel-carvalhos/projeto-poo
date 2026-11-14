@@ -14,10 +14,11 @@
     /* Definindo cores padroes que poderam ser reutilizadas nesse arquivo e no projeto */
     bg-color: #DDE6F3;
     text-color: #333;
+    primary-red: #D21E39;
 
     -fx-font-family: 'Inter 18pt Regular';
     -fx-font-size: 20px;
-    -fx-background-color: bg-color;
+    /*-fx-background-color: bg-color;*/
 }
 
 /* adiciona text-color a todos elementos dentro de card-musica */
@@ -28,8 +29,41 @@
 /* acionando a cor do texto branco para o texto dos tooltip */
 .tooltip {
     -fx-text-fill: white;
+    -fx-font-family: 'Inter 18pt Regular';
+    -fx-font-size: 24px;
 }
 
 .rodape * {
     -fx-text-fill: white;
+}
+
+/* Styling the slider track */
+.jfx-slider > .track {
+    -fx-background-color: #b0b0b0;
+    -fx-pref-height: 8px;
+}
+
+/* Styling the slider thumb */
+.jfx-slider > .thumb {
+    -fx-background-color: primary-red;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+}
+
+/* Styling the filled track */
+.jfx-slider > .colored-track {
+    -fx-background-color: primary-red;
+}
+
+/* Styling the animated thumb */
+.jfx-slider > .animated-thumb {
+    -fx-opacity: 0;
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
+}
+
+/* Styling the slider value text inside animated thumb */
+.jfx-slider .slider-value {
+    -fx-fill: white;
+    -fx-stroke: white;
 }
