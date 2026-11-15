@@ -40,7 +40,7 @@ public class App extends Application {
 
         conteudoPrincipal.getChildren().addAll(titulo, gridMusicasContainer);
 
-        HBox rodape = new Rodape(b).rodape();
+        BorderPane rodape = new Rodape(b).rodape();
 
         AnchorPane.setTopAnchor(conteudoPrincipal, 0.0);
         AnchorPane.setLeftAnchor(conteudoPrincipal, 0.0);

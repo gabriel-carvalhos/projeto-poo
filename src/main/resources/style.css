@@ -37,6 +37,10 @@
     -fx-text-fill: white;
 }
 
+.jfx-slider {
+    -fx-cursor: hand;
+}
+
 /* Styling the slider track */
 .jfx-slider > .track {
     -fx-background-color: #b0b0b0;
