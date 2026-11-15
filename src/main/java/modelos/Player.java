@@ -31,14 +31,6 @@ public class Player {
         return progresso;
     }
 
-    // public boolean isPlaying() {
-    //    if (player == null) {
-    //        return false;
-    //    }
-    //
-    //    return player.getStatus() == MediaPlayer.Status.PLAYING;
-    // }
-
     public void play(Musica musica) {
         // verificando se precisa trocar de musica
         if (player != null && musicaAtual.get() == musica) {
@@ -59,6 +51,8 @@ public class Player {
         System.out.println("Trocando musica");
         player = new MediaPlayer(musica.getMedia());
         player.currentTimeProperty().addListener((obs, antigo, nova) -> atualizarProgresso());
+
+        player.setOnEndOfMedia(this::stop);
 
         player.play();
         isPlaying.set(true);
@@ -94,7 +88,6 @@ public class Player {
     public void retomar() {
         if (player != null) {
             System.out.println("Retomando a mesma musica");
-            // player.setOnEndOfMedia(this::stop);
             player.play();
             isPlaying.set(true);
         }
