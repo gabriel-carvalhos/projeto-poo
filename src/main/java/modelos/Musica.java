@@ -14,6 +14,7 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 import java.io.ByteArrayInputStream;
+import java.text.Normalizer;
 
 public class Musica {
     private int duracao;
@@ -27,6 +28,7 @@ public class Musica {
     private String ano;
     private Image capa;
     private Media media;
+    private VBox card;
 
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
@@ -115,7 +117,7 @@ public class Musica {
                "Duração: " + getDuracaoEmMinutos();
     }
 
-    public VBox cardMusica() {
+    private VBox criarCard() {
         VBox card = new VBox();
         card.setSpacing(6);
         card.setPrefWidth(400);
@@ -190,6 +192,29 @@ public class Musica {
         imageView.setClip(clip);
 
         return imageView;
+    }
+
+    public VBox cardMusica() {
+        if (card == null) {
+            card = criarCard();
+        }
+        return card;
+    }
+
+    // true se o texto aparece no título, artista, álbum ou gênero
+    public boolean correspondeA(String texto) {
+        String busca = normalizar(texto);
+        return normalizar(titulo).contains(busca)
+                || normalizar(artista).contains(busca)
+                || normalizar(album).contains(busca)
+                || normalizar(genero).contains(busca);
+    }
+
+    // minúsculo e sem acento, então "cafe" encontra "Café"
+    private static String normalizar(String s) {
+        return Normalizer.normalize(s, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
     }
 
     // exibe todos metadados presentes no arquivo

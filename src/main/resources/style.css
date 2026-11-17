@@ -74,7 +74,7 @@
 
 /* Tela inicial: adicionar diretório */
 .tela-diretorio {
-    -fx-background-color: #cfe7fb;
+    -fx-background-color: bg-color;
 }
 
 .conjunto-cartoes {
@@ -101,7 +101,7 @@
 .titulo-diretorio {
     -fx-font-family: 'Inter 18pt Bold';
     -fx-font-size: 39px;
-    -fx-text-fill: #080808;
+    -fx-text-fill: text-color;
 }
 
 .botao-adicionar-diretorio {
@@ -129,5 +129,4 @@
 
 .conteudo-biblioteca {
     -fx-background-color: bg-color;
-    -fx-padding: 20px;
 }

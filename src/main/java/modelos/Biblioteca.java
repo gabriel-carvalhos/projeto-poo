@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Biblioteca {
     private ArrayList<Musica> musicas = new ArrayList<>();
+    private FlowPane gridMusicas;
 
     public Biblioteca(String caminho) {
         adicionarMusica(Leitor.lerTodosArquivosDoDiretorio(caminho));
@@ -47,7 +48,7 @@ public class Biblioteca {
 
     public FlowPane gridMusicas() {
         // TODO: melhorar a responsividade desse grid
-        FlowPane gridMusicas = new FlowPane();
+        gridMusicas = new FlowPane();
         // setando o padding inferior para 100, para distanciar o rodape do gridMusicas
         gridMusicas.setPadding(new Insets(0, 0, 100, 0));
         gridMusicas.setHgap(36);
@@ -56,11 +57,27 @@ public class Biblioteca {
         gridMusicas.setAlignment(Pos.CENTER);
         // gridMusicas.getStyleClass().add("grid-musicas");
 
-        for (Musica m : musicas) {
-            gridMusicas.getChildren().add(m.cardMusica());
-        }
+        filtrar("");
 
         return gridMusicas;
+    }
+
+    public int filtrar(String texto) {
+        if (gridMusicas == null) return 0;
+
+        String busca = texto == null ? "" : texto.trim();
+
+        gridMusicas.getChildren().clear();
+        int encontradas = 0;
+
+        for (Musica m : musicas) {
+            if (busca.isEmpty() || m.correspondeA(busca)) {
+                gridMusicas.getChildren().add(m.cardMusica());
+                encontradas++;
+            }
+        }
+
+        return encontradas;
     }
 
 //    public Musica procurarPorTitulo(String titulo) {

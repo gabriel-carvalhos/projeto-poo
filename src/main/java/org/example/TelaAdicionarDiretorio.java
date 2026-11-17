@@ -36,7 +36,7 @@ public class TelaAdicionarDiretorio {
         cartao.setAlignment(Pos.TOP_CENTER);
         cartao.getStyleClass().add("cartao-diretorio");
 
-        Label titulo = new Label("ADICIONAR DIRETÓRIO");
+        Label titulo = new Label("Adicionar Diretório");
         titulo.getStyleClass().add("titulo-diretorio");
 
         Label simboloMais = new Label("+");
@@ -56,13 +56,7 @@ public class TelaAdicionarDiretorio {
         StackPane conjuntoCartoes = new StackPane(cartaoSombra, cartao);
         conjuntoCartoes.getStyleClass().add("conjunto-cartoes");
 
-        javafx.scene.layout.Region faixaInferior = new javafx.scene.layout.Region();
-        faixaInferior.setPrefHeight(74);
-        faixaInferior.setMaxHeight(74);
-        faixaInferior.setStyle("-fx-background-color: #3568f5;");
-        StackPane.setAlignment(faixaInferior, Pos.BOTTOM_CENTER);
-
-        raiz.getChildren().addAll(faixaInferior, conjuntoCartoes);
+        raiz.getChildren().addAll(conjuntoCartoes);
         return new Scene(raiz, App.LARGURA, App.ALTURA);
     }
 
