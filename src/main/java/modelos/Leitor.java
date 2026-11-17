@@ -12,8 +12,13 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Set;
 
 public class Leitor {
+    private static final Set<String> EXTENSOES_AUDIO = Set.of(
+            "mp3", "wav", "aiff", "aif", "flac", "ogg", "m4a", "wma"
+    );
 
     // TODO: validar se o arquivo é suportado pela biblioteca
     public static ArrayList<String> lerTodosArquivosDoDiretorio(String caminho) {
@@ -25,13 +30,6 @@ public class Leitor {
         }
 
         // lista todos arquivos e subpastas dentro de "pasta"
-        File[] arquivos = pasta.listFiles();
-
-        if (arquivos == null) {
-            System.out.println("O diretório está vazio");
-            return null;
-        }
-
         ArrayList<String> caminhos = buscaRecursiva(pasta.toPath());
 
         return caminhos;
@@ -43,7 +41,7 @@ public class Leitor {
             Files.walkFileTree(raiz, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
-                    if (attributes.isRegularFile()) {
+                    if (attributes.isRegularFile() && ehArquivoDeAudio(file)) {
                         caminhos.add(file.toAbsolutePath().toString());
                     }
                     return FileVisitResult.CONTINUE;
@@ -60,6 +58,17 @@ public class Leitor {
         }
 
         return caminhos;
+    }
+
+
+    private static boolean ehArquivoDeAudio(Path arquivo) {
+        String nome = arquivo.getFileName().toString();
+        int ponto = nome.lastIndexOf('.');
+        if (ponto < 0 || ponto == nome.length() - 1) {
+            return false;
+        }
+        String extensao = nome.substring(ponto + 1).toLowerCase(Locale.ROOT);
+        return EXTENSOES_AUDIO.contains(extensao);
     }
 
     public static Musica lerMusica(String caminho) {

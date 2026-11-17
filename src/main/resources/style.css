@@ -71,3 +71,63 @@
     -fx-fill: white;
     -fx-stroke: white;
 }
+
+/* Tela inicial: adicionar diretório */
+.tela-diretorio {
+    -fx-background-color: #cfe7fb;
+}
+
+.conjunto-cartoes {
+    -fx-pref-width: 780px;
+    -fx-pref-height: 535px;
+    -fx-max-width: 780px;
+    -fx-max-height: 535px;
+}
+
+.cartao-sombra {
+    -fx-background-color: #9bb6ce;
+    -fx-background-radius: 32px;
+    -fx-translate-x: -55px;
+    -fx-translate-y: -40px;
+}
+
+.cartao-diretorio {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 32px;
+    -fx-padding: 32px 24px 40px 24px;
+    -fx-alignment: top-center;
+}
+
+.titulo-diretorio {
+    -fx-font-family: 'Inter 18pt Bold';
+    -fx-font-size: 39px;
+    -fx-text-fill: #080808;
+}
+
+.botao-adicionar-diretorio {
+    -fx-background-color: white;
+    -fx-border-color: #080808;
+    -fx-border-width: 7px;
+    -fx-border-radius: 42px;
+    -fx-background-radius: 42px;
+    -fx-pref-width: 325px;
+    -fx-pref-height: 325px;
+    -fx-min-width: 325px;
+    -fx-min-height: 325px;
+    -fx-font-family: 'Inter 18pt Regular';
+    -fx-font-size: 170px;
+    -fx-text-fill: #080808;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-content-display: graphic-only;
+    -fx-padding: 0;
+}
+
+.botao-adicionar-diretorio:hover {
+    -fx-background-color: #f4f8fc;
+}
+
+.conteudo-biblioteca {
+    -fx-background-color: bg-color;
+    -fx-padding: 20px;
+}
