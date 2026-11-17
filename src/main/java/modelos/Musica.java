@@ -1,25 +1,25 @@
 package modelos;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.shape.Rectangle;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 
 import java.io.ByteArrayInputStream;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.text.Normalizer;
 
 public class Musica {
     private int duracao;
     private String caminho;
+    private String caminhoURI;
     // private Tag tag;
     private String titulo;
     private String artista;
@@ -27,23 +27,23 @@ public class Musica {
     private String genero;
     private String ano;
     private Image capa;
-    public String getCaminho() {return caminho;}
-    public String getArtista() {return artista; }
-    public String getAlbum() {return album; }
-
+    private Media media;
+    private VBox card;
 
     // TODO: entender por que ele pode retornar null
     private static Image CAPA_PADRAO = new Image(Musica.class.getResourceAsStream("/imgs/capa-padrao.png"));
 
-    public Musica(int duracao, String caminho, Tag tag) {
+    public Musica(int duracao, String caminho, Tag tag, String caminhoURI) {
         this.caminho = caminho;
         this.duracao = duracao;
+        this.caminhoURI = caminhoURI;
         titulo = "Título Desconhecido";
         artista = "Artista Desconhecido";
         album = "Album Desconhecido";
         genero = "Gênero Desconhecido";
         ano = "Ano Desconhecido";
-        capa = CAPA_PADRAO;
+        capa = CAPA_PADRAO; // [PLAYLISTS] antes era null; sem tag a capa ficava vazia
+        media = new Media(caminhoURI);
 
         // this.tag = tag;
         if (tag != null) {
@@ -67,6 +67,61 @@ public class Musica {
         }
     }
 
+    private Image carregarCapa(Artwork art) {
+        if (art == null) {
+            return CAPA_PADRAO;
+        }
+
+        try {
+            byte[] imageBytes = art.getBinaryData();
+            if (imageBytes == null || imageBytes.length == 0) {
+                return CAPA_PADRAO;
+            }
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+            Image capa = new Image(inputStream);
+            // System.out.println(capa.isError());
+            return capa.isError() ? CAPA_PADRAO : capa;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // capa.getException().printStackTrace();
+            return CAPA_PADRAO;
+        }
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    // [PLAYLISTS] getters novos
+    public String getCaminho() {
+        return caminho;
+    }
+
+    public String getArtista() {
+        return artista;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+
+    public String getCaminhoURI() {
+        return caminhoURI;
+    }
+
+    public String getDuracaoEmMinutos() {
+        int minutos = duracao / 60;
+        int segundos = duracao % 60;
+
+        return String.format("%d:%02d", minutos, segundos);
+    }
+
+    // [PLAYLISTS] duas músicas são iguais se têm o mesmo arquivo (compatível com Java 11)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,48 +135,16 @@ public class Musica {
         return caminho.hashCode();
     }
 
-    public Image carregarCapa(Artwork art) {
-        if (art == null) {
-            return CAPA_PADRAO;
-        }
-
-        try {
-            byte[] imageBytes = art.getBinaryData();
-            if (imageBytes == null || imageBytes.length == 0) {
-                return CAPA_PADRAO;
-            }
-
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
-            Image capa = new Image(inputStream);
-            return capa.isError() ? CAPA_PADRAO : capa;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return CAPA_PADRAO;
-        }
-
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getDuracaoEmMinutos() {
-        int minutos = duracao / 60;
-        int segundos = duracao % 60;
-
-        return String.format("%d:%02d", minutos, segundos);
-    }
-
     @Override
     public String toString() {
         return "Título: " + titulo + "\n" +
-               "Artista: " + artista + "\n" +
-               "Album: " + album + " (" + ano + ")\n" +
-               "Gênero: " + genero + "\n" +
-               "Duração: " + getDuracaoEmMinutos();
+                "Artista: " + artista + "\n" +
+                "Album: " + album + " (" + ano + ")\n" +
+                "Gênero: " + genero + "\n" +
+                "Duração: " + getDuracaoEmMinutos();
     }
 
-    public VBox cardMusica() {
+    private VBox criarCard() {
         VBox card = new VBox();
         card.setSpacing(6);
         card.setPrefWidth(400);
@@ -129,35 +152,97 @@ public class Musica {
         card.getStyleClass().add("card-musica");
 
         Label lTitulo = new Label(titulo);
-        // lTitulo.setWrapText(true);
+        lTitulo.setTooltip(new Tooltip(lTitulo.getText()));
         lTitulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 48px;");
 
         Label lArtista = new Label(artista);
-        // lArtista.setWrapText(true);
+        lArtista.setTooltip(new Tooltip(lArtista.getText()));
         lArtista.setStyle("-fx-font-size: 32px;");
 
         Label lAlbumAno = new Label(album + " (" + ano + ")");
-        // lAlbumAno.setWrapText(true);
+        lAlbumAno.setTooltip(new Tooltip(lAlbumAno.getText()));
 
         Label lGenero = new Label(genero);
-        // lGenero.setWrapText(true);
+        lGenero.setTooltip(new Tooltip(lGenero.getText()));
+
+        HBox playerContainer = new HBox();
+
+        Player player = Player.getInstance();
+
+        ImageView playIcon = Components.playIcon();
+        ImageView pauseIcon = Components.pauseIcon();
+
+        Button btnPlay = Components.btnPlay();
+        btnPlay.setText("Play");
+        btnPlay.setGraphicTextGap(10);
+
+        btnPlay.setOnAction(ActionEvent -> {
+            player.play(this);
+        });
+
+        Runnable atualizar = () -> {
+            if (player.musicaAtualProperty().get() == this && player.isPlayingProperty().get()) {
+                btnPlay.setText("Pause");
+                btnPlay.setGraphic(pauseIcon);
+            } else {
+                btnPlay.setText("Play");
+                btnPlay.setGraphic(playIcon);
+            }
+        };
+        player.musicaAtualProperty().addListener((obs, antigo, nova) -> atualizar.run());
+        player.isPlayingProperty().addListener((obs, antigo, nova) -> atualizar.run());
+
+        Region espaco = new Region();
+        HBox.setHgrow(espaco, Priority.ALWAYS);
 
         Label lDuracao = new Label(getDuracaoEmMinutos());
-        // lDuracao.setWrapText(true);
+        lDuracao.setTooltip(new Tooltip(lDuracao.getText()));
 
-        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, lDuracao);
+        playerContainer.getChildren().addAll(btnPlay, espaco, lDuracao);
+        playerContainer.setAlignment(Pos.CENTER);
+
+        card.getChildren().addAll(capaMusica(), lTitulo, lArtista, lAlbumAno, lGenero, playerContainer);
+
         return card;
     }
 
-    public ImageView capaMusica() {
-        // TODO: deixar a borda arrendodada
+    private ImageView capaMusica() {
         ImageView imageView = new ImageView(capa);
         imageView.setFitWidth(400);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
+
+        // adiciona arredondamento de borda de 14px
+        Rectangle clip = new Rectangle(imageView.getBoundsInLocal().getWidth(), imageView.getBoundsInLocal().getHeight());
+        clip.setArcHeight(14);
+        clip.setArcWidth(14);
+        imageView.setClip(clip);
+
         return imageView;
     }
 
+    public VBox cardMusica() {
+        if (card == null) {
+            card = criarCard();
+        }
+        return card;
+    }
+
+    // true se o texto aparece no título, artista, álbum ou gênero
+    public boolean correspondeA(String texto) {
+        String busca = normalizar(texto);
+        return normalizar(titulo).contains(busca)
+                || normalizar(artista).contains(busca)
+                || normalizar(album).contains(busca)
+                || normalizar(genero).contains(busca);
+    }
+
+    // minúsculo e sem acento, então "cafe" encontra "Café"
+    private static String normalizar(String s) {
+        return Normalizer.normalize(s, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase();
+    }
 
     // exibe todos metadados presentes no arquivo
 //    public void exibirTodosMetadados() {
