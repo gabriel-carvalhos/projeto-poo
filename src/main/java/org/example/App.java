@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -19,6 +20,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        Image appIcon = new Image(getClass().getResourceAsStream("/imgs/logo.png"));
+        stage.getIcons().add(appIcon);
+
         stage.setTitle("Organizador de Músicas");
         stage.setMinWidth(700);
         stage.setMinHeight(500);
