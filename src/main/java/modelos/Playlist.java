@@ -3,22 +3,56 @@ package modelos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist {
         private String nome;
         private final ObservableList<Musica> musicas = FXCollections.observableArrayList();
 
-        public Playlist(String nome) { this.nome = nome; }
+        // caminhos salvos que não estão na pasta aberta agora (outro diretório).
+        // são mantidos para não serem perdidos quando o arquivo é regravado
+        private final List<String> caminhosPendentes = new ArrayList<>();
 
-        public String getNome() { return nome; }
-        public void setNome(String nome) { this.nome = nome; }
-        public ObservableList<Musica> getMusicas() { return musicas; }
-
-        public void adicionar(Musica m) {
-            if (!musicas.contains(m)) musicas.add(m);
+        public Playlist(String nome) {
+                this.nome = nome;
         }
 
-        public void remover(Musica m) { musicas.remove(m); }
+        public String getNome() {
+                return nome;
+        }
+
+        public void setNome(String nome) {
+                this.nome = nome;
+        }
+
+        public ObservableList<Musica> getMusicas() {
+                return musicas;
+        }
+
+        public List<String> getCaminhosPendentes() {
+                return caminhosPendentes;
+        }
+
+        public void adicionar(Musica m) {
+                caminhosPendentes.remove(m.getCaminho());
+                if (!musicas.contains(m)) {
+                        musicas.add(m);
+                }
+        }
+
+        public void adicionarPendente(String caminho) {
+                if (!caminhosPendentes.contains(caminho)) {
+                        caminhosPendentes.add(caminho);
+                }
+        }
+
+        public void remover(Musica m) {
+                musicas.remove(m);
+        }
 
         @Override
-        public String toString() { return nome; }
+        public String toString() {
+                return nome;
+        }
 }
