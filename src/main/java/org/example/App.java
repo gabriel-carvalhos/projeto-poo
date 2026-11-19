@@ -11,9 +11,16 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import modelos.*;
+import modelos.Biblioteca;
+import modelos.GerenciadorPlaylist;
+import modelos.Musica;
+import modelos.Playlist;
+import modelos.Rodape;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +200,13 @@ public class App extends Application {
                 listaPlaylists.getSelectionModel().selectedItemProperty().isNull());
         btnExcluir.setOnAction(e -> excluirPlaylistSelecionada());
 
-        VBox painel = new VBox(10, lblPlaylists, btnTodas, listaPlaylists, btnAdicionar, btnNova, btnExcluir);
+        Button btnAbrirPasta = new Button("Abrir pasta");
+        btnAbrirPasta.setMaxWidth(Double.MAX_VALUE);
+        btnAbrirPasta.disableProperty().bind(
+                listaPlaylists.getSelectionModel().selectedItemProperty().isNull());
+        btnAbrirPasta.setOnAction(e -> abrirPastaDaPlaylist());
+
+        VBox painel = new VBox(10, lblPlaylists, btnTodas, listaPlaylists, btnAdicionar, btnAbrirPasta, btnNova, btnExcluir);
         painel.setPadding(new Insets(10));
         painel.setPrefWidth(240);
         painel.setMinWidth(240);
@@ -207,11 +220,28 @@ public class App extends Application {
         dialogo.setHeaderText("Nome da playlist:");
         dialogo.setContentText("Nome:");
         dialogo.showAndWait().ifPresent(nome -> {
-            if (!nome.isBlank()) {
-                Playlist p = gerenciador.criar(nome);
-                listaPlaylists.getSelectionModel().select(p);
+            if (nome.isBlank()) return;
+            if (gerenciador.existeNome(nome)) {
+                new Alert(Alert.AlertType.WARNING, "Já existe uma playlist com esse nome.").showAndWait();
+                return;
             }
+            Playlist p = gerenciador.criar(nome);
+            listaPlaylists.getSelectionModel().select(p);
         });
+    }
+
+    // abre a pasta da playlist no explorador de arquivos
+    private void abrirPastaDaPlaylist() {
+        Playlist p = listaPlaylists.getSelectionModel().getSelectedItem();
+        if (p == null) return;
+
+        Path pasta = gerenciador.pastaDa(p);
+        try {
+            Files.createDirectories(pasta);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        getHostServices().showDocument(pasta.toUri().toString());
     }
 
     private void excluirPlaylistSelecionada() {
@@ -219,7 +249,7 @@ public class App extends Application {
         if (p == null) return;
 
         Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION,
-                "Excluir a playlist \"" + p.getNome() + "\"? As músicas não serão apagadas do disco.",
+                "Excluir a playlist \"" + p.getNome() + "\"? A pasta da playlist e as cópias dentro dela serão apagadas. Os arquivos originais não serão tocados.",
                 ButtonType.YES, ButtonType.NO);
         confirmacao.setHeaderText(null);
         confirmacao.showAndWait().ifPresent(resposta -> {
