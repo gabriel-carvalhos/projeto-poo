@@ -10,24 +10,23 @@ import javafx.scene.layout.*;
 public class Rodape {
     private Biblioteca biblioteca;
     private Player player;
+    private HBox rodape;
 
     public Rodape(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
     }
 
-    public BorderPane rodape() {
-        BorderPane rodape = new BorderPane();
+    public HBox rodape() {
+        rodape = new HBox();
+        rodape.setMaxWidth(350);
+        rodape.setMaxHeight(80);
         rodape.setPadding(new Insets(15, 20, 15, 20));
         rodape.setStyle("-fx-background-color: rgba(51, 51, 51, 0.5); -fx-font-size: 24px;");
         rodape.getStyleClass().add("rodape");
-
-        int size = biblioteca.getSize();
-        Label lQuantidade = new Label(size + " Músicas encontradas");
-        Tooltip tQuantidade = new Tooltip(size + " Músicas encontradas");
-        lQuantidade.setTooltip(tQuantidade);
+        rodape.setVisible(false);
 
         HBox playerContainer = playerContainer();
-        TextField pesquisa = new TextField();
+        /* TextField pesquisa = new TextField();
         pesquisa.setStyle("-fx-text-fill: text-color");
         pesquisa.setPromptText("Digite a música desejada");
         pesquisa.textProperty().addListener((obs, antigo, nova) -> {
@@ -35,15 +34,10 @@ public class Rodape {
             String texto = encontradas + " Músicas encontradas";
             lQuantidade.setText(texto);
             tQuantidade.setText(texto);
-        });
+        }); */
 
-        rodape.setLeft(lQuantidade);
-        rodape.setCenter(playerContainer);
-        rodape.setRight(pesquisa);
-
-        BorderPane.setAlignment(lQuantidade, Pos.CENTER);
-        BorderPane.setAlignment(playerContainer, Pos.CENTER);
-        BorderPane.setAlignment(pesquisa, Pos.CENTER);
+        rodape.getChildren().add(playerContainer);
+        // rodape.setAlignment(Pos.CENTER);
 
         return rodape;
     }
@@ -73,7 +67,6 @@ public class Rodape {
         controlesMusica.getChildren().addAll(lTitulo, sliderDuracao);
 
         container.getChildren().addAll(btnPlay, controlesMusica);
-        container.setVisible(false);
 
         player = Player.getInstance();
 
@@ -86,7 +79,7 @@ public class Rodape {
         });
 
         player.musicaAtualProperty().addListener((obs, antiga, nova) -> {
-            container.setVisible(nova != null);
+            rodape.setVisible(nova != null);
             if (nova != null) {
                 lTitulo.setText(nova.getTitulo());
                 tTitulo.setText(nova.getTitulo());

@@ -76,7 +76,8 @@ public class App extends Application {
         gerenciador.carregar(mapaPorCaminho);
         playlistAtual = null;
 
-        AnchorPane root = new AnchorPane();
+        StackPane root = new StackPane();
+
         VBox conteudoPrincipal = new VBox();
         conteudoPrincipal.getStyleClass().add("conteudo-biblioteca");
 
@@ -88,7 +89,6 @@ public class App extends Application {
         ScrollPane gridMusicasContainer = new ScrollPane();
         gridMusicasContainer.setFitToWidth(true);
         gridMusicasContainer.setFitToHeight(true);
-        // gridMusicasContainer.setPannable(true);
         gridMusicasContainer.setStyle("-fx-background-color: transparent;");
 
         gridMusicas = new FlowPane();
@@ -110,15 +110,9 @@ public class App extends Application {
         VBox.setVgrow(corpo, Priority.ALWAYS);
 
         conteudoPrincipal.getChildren().addAll(titulo, vazio, corpo);
-        BorderPane rodape = new Rodape(biblioteca).rodape();
+        HBox rodape = new Rodape(biblioteca).rodape();
+        StackPane.setAlignment(rodape, Pos.BOTTOM_CENTER);
 
-        AnchorPane.setTopAnchor(conteudoPrincipal, 0.0);
-        AnchorPane.setLeftAnchor(conteudoPrincipal, 0.0);
-        AnchorPane.setRightAnchor(conteudoPrincipal, 0.0);
-        AnchorPane.setBottomAnchor(conteudoPrincipal, 0.0);
-        AnchorPane.setBottomAnchor(rodape, 0.0);
-        AnchorPane.setLeftAnchor(rodape, 0.0);
-        AnchorPane.setRightAnchor(rodape, 0.0);
         root.getChildren().addAll(conteudoPrincipal, rodape);
 
         atualizarGrade();
