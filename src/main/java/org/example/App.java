@@ -47,8 +47,8 @@ public class App extends Application {
         stage.getIcons().add(appIcon);
 
         stage.setTitle("Organizador de Músicas");
-        stage.setMinWidth(700);
-        stage.setMinHeight(500);
+        stage.setMinWidth(LARGURA);
+        stage.setMinHeight(ALTURA);
 
         mostrarTelaAdicionarDiretorio(stage);
         stage.show();
@@ -57,11 +57,11 @@ public class App extends Application {
     private void mostrarTelaAdicionarDiretorio(Stage stage) {
         TelaAdicionarDiretorio tela = new TelaAdicionarDiretorio(
                 stage,
-                diretorio -> mostrarBiblioteca(stage, diretorio)
+                diretorio -> mostrarBiblioteca(stage, diretorio) // mostra a biblioteca ao escolher a pasta
         );
         Scene scene = tela.criarCena();
         adicionarEstilos(scene);
-        stage.setScene(scene);
+        stage.setScene(scene); // troca a cena por scene (tela de adicionar diretorio)
     }
 
     private void mostrarBiblioteca(Stage stage, File diretorio) {
@@ -88,11 +88,11 @@ public class App extends Application {
         ScrollPane gridMusicasContainer = new ScrollPane();
         gridMusicasContainer.setFitToWidth(true);
         gridMusicasContainer.setFitToHeight(true);
-        gridMusicasContainer.setPannable(true);
+        // gridMusicasContainer.setPannable(true);
         gridMusicasContainer.setStyle("-fx-background-color: transparent;");
 
         gridMusicas = new FlowPane();
-        gridMusicas.setPadding(new Insets(10, 10, 10, 10));
+        gridMusicas.setPadding(new Insets(0, 0, 100, 0));
         gridMusicas.setHgap(36);
         gridMusicas.setVgap(58);
         gridMusicas.setStyle("-fx-background-color: bg-color;");
@@ -123,9 +123,9 @@ public class App extends Application {
 
         atualizarGrade();
 
-        Scene scene = new Scene(root, LARGURA, ALTURA);
+        Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
         adicionarEstilos(scene);
-        stage.setScene(scene);
+        stage.setScene(scene); // troca a cena por scene (tela biblioteca)
     }
 
     private void adicionarEstilos(Scene scene) {
@@ -139,7 +139,7 @@ public class App extends Application {
 
     private VBox criarPainelPlaylists() {
         Label lblPlaylists = new Label("Playlists");
-        lblPlaylists.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        lblPlaylists.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 28px");
 
         listaPlaylists = new ListView<>(gerenciador.getPlaylists());
         listaPlaylists.setStyle("-fx-font-size: 20px;");
