@@ -18,10 +18,10 @@ public class Rodape {
 
     public HBox rodape() {
         rodape = new HBox();
-        rodape.setMaxWidth(350);
+        rodape.setMaxWidth(400);
         rodape.setMaxHeight(80);
         rodape.setPadding(new Insets(15, 20, 15, 20));
-        rodape.setStyle("-fx-background-color: rgba(51, 51, 51, 0.5); -fx-font-size: 24px;");
+        rodape.setStyle("-fx-background-color: rgba(51, 51, 51, 0.8); -fx-background-radius: 7px; -fx-font-size: 24px;");
         rodape.getStyleClass().add("rodape");
         rodape.setVisible(false);
 
@@ -35,7 +35,7 @@ public class Rodape {
     public HBox playerContainer() {
         HBox container = new HBox();
         container.setSpacing(6);
-        container.setPrefWidth(350);
+        container.setPrefWidth(400);
         container.setAlignment(Pos.CENTER);
 
         ImageView playIcon = Components.playIcon();

@@ -132,6 +132,7 @@ public class App extends Application {
 
         HBox rodape = new Rodape(biblioteca).rodape();
         StackPane.setAlignment(rodape, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(rodape, new Insets(0, 0, 10, 0));
 
         root.getChildren().addAll(conteudoPrincipal, rodape);
 
@@ -266,6 +267,7 @@ public class App extends Application {
                 "Excluir a playlist \"" + p.getNome() + "\"? A pasta da playlist e as cópias dentro dela serão apagadas. Os arquivos originais não serão tocados.",
                 ButtonType.YES, ButtonType.NO);
         confirmacao.setHeaderText(null);
+        confirmacao.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         confirmacao.showAndWait().ifPresent(resposta -> {
             if (resposta == ButtonType.YES) {
                 listaPlaylists.getSelectionModel().clearSelection();
