@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 public class App extends Application {
-    public static final int LARGURA = 640;
-    public static final int ALTURA = 480;
+    public static final int LARGURA = 900;
+    public static final int ALTURA = 600;
 
     // [PLAYLISTS] estado das playlists
     private final GerenciadorPlaylist gerenciador = new GerenciadorPlaylist();
@@ -81,8 +81,19 @@ public class App extends Application {
         VBox conteudoPrincipal = new VBox();
         conteudoPrincipal.getStyleClass().add("conteudo-biblioteca");
 
+        BorderPane cabecalho = new BorderPane();
+        cabecalho.setPadding(new Insets(0, 20, 0, 20));
+
         titulo = new Label("Músicas");
         titulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 128px; -fx-text-fill: text-color;");
+        TextField pesquisa = new TextField();
+        pesquisa.setStyle("-fx-text-fill: text-color");
+        pesquisa.setPromptText("Digite a música desejada");
+        pesquisa.setFocusTraversable(false);
+
+        cabecalho.setLeft(titulo);
+        cabecalho.setRight(pesquisa);
+        BorderPane.setAlignment(pesquisa, Pos.CENTER);
 
         // [PLAYLISTS] a grade agora é montada aqui (e não em biblioteca.gridMusicas()),
         // para poder alternar entre "todas as músicas" e uma playlist
@@ -109,7 +120,8 @@ public class App extends Application {
         HBox.setHgrow(gridMusicasContainer, Priority.ALWAYS);
         VBox.setVgrow(corpo, Priority.ALWAYS);
 
-        conteudoPrincipal.getChildren().addAll(titulo, vazio, corpo);
+        conteudoPrincipal.getChildren().addAll(cabecalho, vazio, corpo);
+
         HBox rodape = new Rodape(biblioteca).rodape();
         StackPane.setAlignment(rodape, Pos.BOTTOM_CENTER);
 
@@ -201,7 +213,7 @@ public class App extends Application {
         btnAbrirPasta.setOnAction(e -> abrirPastaDaPlaylist());
 
         VBox painel = new VBox(10, lblPlaylists, btnTodas, listaPlaylists, btnAdicionar, btnAbrirPasta, btnNova, btnExcluir);
-        painel.setPadding(new Insets(10));
+        painel.setPadding(new Insets(10, 20, 10, 20));
         painel.setPrefWidth(240);
         painel.setMinWidth(240);
         painel.setStyle("-fx-font-size: 18px;");
