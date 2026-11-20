@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Biblioteca {
     private ArrayList<Musica> musicas = new ArrayList<>();
@@ -46,7 +47,7 @@ public class Biblioteca {
         }
     }
 
-    public FlowPane gridMusicas() {
+    /* public FlowPane gridMusicas() {
         // TODO: melhorar a responsividade desse grid
         gridMusicas = new FlowPane();
         // setando o padding inferior para 100, para distanciar o rodape do gridMusicas
@@ -60,24 +61,22 @@ public class Biblioteca {
         filtrar("");
 
         return gridMusicas;
-    }
+    } */
 
-    public int filtrar(String texto) {
-        if (gridMusicas == null) return 0;
+    public void filtrar(String texto, FlowPane gridMusicas, List<Musica> musicas) {
+        if (gridMusicas == null) {
+            return;
+        }
 
         String busca = texto == null ? "" : texto.trim();
 
         gridMusicas.getChildren().clear();
-        int encontradas = 0;
 
         for (Musica m : musicas) {
             if (busca.isEmpty() || m.correspondeA(busca)) {
                 gridMusicas.getChildren().add(m.cardMusica());
-                encontradas++;
             }
         }
-
-        return encontradas;
     }
 
 //    public Musica procurarPorTitulo(String titulo) {

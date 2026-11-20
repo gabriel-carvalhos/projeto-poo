@@ -39,6 +39,7 @@ public class App extends Application {
     private Label titulo;
     private Label vazio;
     private FlowPane gridMusicas;
+    private TextField pesquisa;
     private ListView<Playlist> listaPlaylists;
 
     @Override
@@ -86,10 +87,17 @@ public class App extends Application {
 
         titulo = new Label("Músicas");
         titulo.setStyle("-fx-font-family: 'Inter 18pt Bold'; -fx-font-size: 128px; -fx-text-fill: text-color;");
-        TextField pesquisa = new TextField();
+        pesquisa = new TextField();
         pesquisa.setStyle("-fx-text-fill: text-color");
         pesquisa.setPromptText("Digite a música desejada");
         pesquisa.setFocusTraversable(false);
+        pesquisa.textProperty().addListener((obs, antigo, nova) -> {
+            if (playlistAtual == null) {
+                biblioteca.filtrar(nova, gridMusicas, todasMusicas);
+                return;
+            }
+            biblioteca.filtrar(nova, gridMusicas, playlistAtual.getMusicas());
+        });
 
         cabecalho.setLeft(titulo);
         cabecalho.setRight(pesquisa);
@@ -308,7 +316,7 @@ public class App extends Application {
 
         List<Musica> exibir = (playlistAtual == null) ? todasMusicas : playlistAtual.getMusicas();
         titulo.setText(playlistAtual == null ? "Músicas" : playlistAtual.getNome());
-
+        pesquisa.clear();
         boolean semMusicas = exibir.isEmpty();
         vazio.setText(playlistAtual == null
                 ? "Nenhuma música compatível foi encontrada nesta pasta."

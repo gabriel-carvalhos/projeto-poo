@@ -26,18 +26,8 @@ public class Rodape {
         rodape.setVisible(false);
 
         HBox playerContainer = playerContainer();
-        /* TextField pesquisa = new TextField();
-        pesquisa.setStyle("-fx-text-fill: text-color");
-        pesquisa.setPromptText("Digite a música desejada");
-        pesquisa.textProperty().addListener((obs, antigo, nova) -> {
-            int encontradas = biblioteca.filtrar(nova);
-            String texto = encontradas + " Músicas encontradas";
-            lQuantidade.setText(texto);
-            tQuantidade.setText(texto);
-        }); */
 
         rodape.getChildren().add(playerContainer);
-        // rodape.setAlignment(Pos.CENTER);
 
         return rodape;
     }
