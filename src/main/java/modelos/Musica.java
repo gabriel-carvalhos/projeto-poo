@@ -169,10 +169,10 @@ public class Musica {
 
         Player player = Player.getInstance();
 
-        ImageView playIcon = Components.playIcon();
-        ImageView pauseIcon = Components.pauseIcon();
+        ImageView playIcon = Componentes.playIcon();
+        ImageView pauseIcon = Componentes.pauseIcon();
 
-        Button btnPlay = Components.btnPlay();
+        Button btnPlay = Componentes.btnPlay();
         btnPlay.setText("Play");
         btnPlay.setGraphicTextGap(10);
 

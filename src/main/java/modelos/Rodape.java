@@ -38,10 +38,10 @@ public class Rodape {
         container.setPrefWidth(400);
         container.setAlignment(Pos.CENTER);
 
-        ImageView playIcon = Components.playIcon();
-        ImageView pauseIcon = Components.pauseIcon();
+        ImageView playIcon = Componentes.playIcon();
+        ImageView pauseIcon = Componentes.pauseIcon();
 
-        Button btnPlay = Components.btnPlay();
+        Button btnPlay = Componentes.btnPlay();
         btnPlay.setPrefSize(50, 50);
         btnPlay.setAlignment(Pos.CENTER);
 

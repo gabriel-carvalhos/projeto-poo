@@ -11,11 +11,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import modelos.Biblioteca;
-import modelos.GerenciadorPlaylist;
-import modelos.Musica;
-import modelos.Playlist;
-import modelos.Rodape;
+import modelos.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -204,28 +200,23 @@ public class App extends Application {
             atualizarGrade();
         });
 
-        Button btnTodas = new Button("Todas as músicas");
-        btnTodas.setMaxWidth(Double.MAX_VALUE);
+        Button btnTodas = Componentes.btnPlaylist("Todas as músicas");
         btnTodas.setOnAction(e -> listaPlaylists.getSelectionModel().clearSelection());
 
-        Button btnAdicionar = new Button("Adicionar músicas...");
-        btnAdicionar.setMaxWidth(Double.MAX_VALUE);
+        Button btnAdicionar = Componentes.btnPlaylist("Adicionar músicas...");
         btnAdicionar.disableProperty().bind(
                 listaPlaylists.getSelectionModel().selectedItemProperty().isNull());
         btnAdicionar.setOnAction(e -> adicionarMusicasDialogo());
 
-        Button btnNova = new Button("+ Nova playlist");
-        btnNova.setMaxWidth(Double.MAX_VALUE);
+        Button btnNova = Componentes.btnPlaylist("+ Nova playlist");
         btnNova.setOnAction(e -> novaPlaylist());
 
-        Button btnExcluir = new Button("Excluir playlist");
-        btnExcluir.setMaxWidth(Double.MAX_VALUE);
+        Button btnExcluir = Componentes.btnPlaylist("Excluir playlist");
         btnExcluir.disableProperty().bind(
                 listaPlaylists.getSelectionModel().selectedItemProperty().isNull());
         btnExcluir.setOnAction(e -> excluirPlaylistSelecionada());
 
-        Button btnAbrirPasta = new Button("Abrir pasta");
-        btnAbrirPasta.setMaxWidth(Double.MAX_VALUE);
+        Button btnAbrirPasta = Componentes.btnPlaylist("Abrir pasta");
         btnAbrirPasta.disableProperty().bind(
                 listaPlaylists.getSelectionModel().selectedItemProperty().isNull());
         btnAbrirPasta.setOnAction(e -> abrirPastaDaPlaylist());

@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Components {
+public class Componentes {
     private static Image PLAY_ICON = new Image(Musica.class.getResourceAsStream("/imgs/play-icon.png"));
     private static Image PAUSE_ICON = new Image(Musica.class.getResourceAsStream("/imgs/pause-icon.png"));
 
@@ -22,5 +22,12 @@ public class Components {
         btnPlay.setGraphic(playIcon);
         btnPlay.setStyle("-fx-background-radius: 50em; -fx-background-color: primary-red; -fx-text-fill: white; -fx-cursor: hand");
         return btnPlay;
+    }
+
+    public static Button btnPlaylist(String text) {
+        Button btnPlaylist = new Button(text);
+        btnPlaylist.setMaxWidth(Double.MAX_VALUE);
+        btnPlaylist.setStyle("-fx-background-radius: 50em; -fx-background-color: primary-red; -fx-text-fill: white; -fx-cursor: hand");
+        return btnPlaylist;
     }
 }
