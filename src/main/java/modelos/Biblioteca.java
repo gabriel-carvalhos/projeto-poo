@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Biblioteca {
     private ArrayList<Musica> musicas = new ArrayList<>();
-    private FlowPane gridMusicas;
+    // private FlowPane gridMusicas;
 
     public Biblioteca(String caminho) {
         adicionarMusica(Leitor.lerTodosArquivosDoDiretorio(caminho));
@@ -19,9 +19,9 @@ public class Biblioteca {
         return musicas;
     }
 
-    public int getSize() {
+    /* public int getSize() {
         return musicas.size();
-    }
+    } */
 
     // le o arquivo com base no caminho, e adiciona a musica ao ArrayList
     public void adicionarMusica(String caminho) {

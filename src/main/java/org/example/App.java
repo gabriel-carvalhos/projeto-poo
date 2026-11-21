@@ -37,7 +37,7 @@ public class App extends Application {
     private Playlist playlistAtual = null; // null = "Todas as músicas"
 
     private Label titulo;
-    private Label vazio;
+    private Label msg;
     private FlowPane gridMusicas;
     private TextField pesquisa;
     private ListView<Playlist> listaPlaylists;
@@ -92,11 +92,15 @@ public class App extends Application {
         pesquisa.setPromptText("Digite a música desejada");
         pesquisa.setFocusTraversable(false);
         pesquisa.textProperty().addListener((obs, antigo, nova) -> {
-            if (playlistAtual == null) {
-                biblioteca.filtrar(nova, gridMusicas, todasMusicas);
-                return;
+            biblioteca.filtrar(nova, gridMusicas, playlistAtual == null ? todasMusicas : playlistAtual.getMusicas());
+            gridMusicas.getChildren().add(msg);
+
+            if (!msg.isVisible()) {
+                msg.setText("Nenhum resultado encontrado com base na sua pesquisa");
+                msg.setVisible(gridMusicas.getChildren().size() - 1 == 0);
+                msg.setManaged(gridMusicas.getChildren().size() - 1 == 0);
             }
-            biblioteca.filtrar(nova, gridMusicas, playlistAtual.getMusicas());
+
         });
 
         cabecalho.setLeft(titulo);
@@ -119,8 +123,13 @@ public class App extends Application {
         gridMusicas.getStyleClass().add("grid-musicas");
         gridMusicasContainer.setContent(gridMusicas);
 
-        vazio = new Label();
-        vazio.setStyle("-fx-font-size: 20px; -fx-padding: 20px;");
+        msg = new Label();
+        msg.setPrefWidth(400);
+        msg.setWrapText(true);
+        msg.setAlignment(Pos.CENTER);
+        msg.setStyle("-fx-font-size: 20px; -fx-line-spacing: 10px; -fx-text-alignment: center; -fx-padding: 20px;");
+
+        gridMusicas.getChildren().add(msg);
 
         VBox painelPlaylists = criarPainelPlaylists();
 
@@ -128,7 +137,7 @@ public class App extends Application {
         HBox.setHgrow(gridMusicasContainer, Priority.ALWAYS);
         VBox.setVgrow(corpo, Priority.ALWAYS);
 
-        conteudoPrincipal.getChildren().addAll(cabecalho, vazio, corpo);
+        conteudoPrincipal.getChildren().addAll(cabecalho, corpo);
 
         HBox rodape = new Rodape(biblioteca).rodape();
         StackPane.setAlignment(rodape, Pos.BOTTOM_CENTER);
@@ -315,16 +324,16 @@ public class App extends Application {
     // reconstrói a grade conforme a playlist selecionada
     private void atualizarGrade() {
         gridMusicas.getChildren().clear();
-
+        gridMusicas.getChildren().add(msg);
         List<Musica> exibir = (playlistAtual == null) ? todasMusicas : playlistAtual.getMusicas();
         titulo.setText(playlistAtual == null ? "Músicas" : playlistAtual.getNome());
         pesquisa.clear();
         boolean semMusicas = exibir.isEmpty();
-        vazio.setText(playlistAtual == null
+        msg.setText(playlistAtual == null
                 ? "Nenhuma música compatível foi encontrada nesta pasta."
                 : "Esta playlist não tem músicas desta pasta. Arraste um card até ela ou use \"Adicionar músicas...\".");
-        vazio.setVisible(semMusicas);
-        vazio.setManaged(semMusicas);
+        msg.setVisible(semMusicas);
+        msg.setManaged(semMusicas);
 
         for (Musica m : exibir) {
             VBox card = m.cardMusica(); // o card fica em cache dentro da Musica
